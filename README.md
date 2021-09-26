@@ -9,7 +9,6 @@ The Japanese data is stored as a Sigmorphon2016 data file `japanese-task1-train`
 mv japanese-task1-train sigmorphon2016/data/
 ```
 
-There is no test and development set. For the training and evaluation, the file `japanese-task1-train` is split: 70\% of the analogies for the training and 30\% for the evaluation. The split is always the same for reproducibility.
 
 ## Files and Files
 - `data.py`: tools to load Sigmorphon2016 datasets, contains the main dataset class `Task1Dataset` and the data augmentation functions `enrich` and `generate_negative`
