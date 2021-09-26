@@ -10,7 +10,7 @@ mv code/japanese-task1-train sigmorphon2016/data/
 ```
 
 
-## Files and Files
+## Files and Folders
 - `data.py`: tools to load Sigmorphon2016 datasets, contains the main dataset class `Task1Dataset` and the data augmentation functions `enrich` and `generate_negative`
 - `cnn_embeddings.py`: neural network to embed words (the encoder)
 - `store_cnn_embeddings.py`: functions to store the embeddings of the train and test set of a given language
