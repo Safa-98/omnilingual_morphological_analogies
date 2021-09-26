@@ -3,10 +3,10 @@
 In this project, we aim to build a decoder for morphological embeddings that transforms embedded vectors to words. We will be working on morphological inflections and dervivations like suffixes, prefixes, etc. For the datasets, we will work with the Sigmorphon2016 data file, which contains 10 languages, and the Japanese dataset.
 
 ### Setting-Up the Japanese Data
-The Japanese data is stored as a Sigmorphon2016 data file `japanese-task1-train` at the root of the directory, and should be moved to `sigmorphon2016/data`, the Sigmorphon2016 data folder. This can be done by running the following command:
+The Japanese data is stored as a Sigmorphon2016 data file `japanese-task1-train` in the code folder, and should be moved to `sigmorphon2016/data`, the Sigmorphon2016 data folder. This can be done by running the following command:
 
 ```bash
-mv japanese-task1-train sigmorphon2016/data/
+mv code/japanese-task1-train sigmorphon2016/data/
 ```
 
 
