@@ -250,7 +250,6 @@ class Task1Dataset(torch.utils.data.Dataset):
         c, feature_d, d = self.raw_data[cd_index]
         return self.encode(a, b, c, d)
 
-
     def get_vocab(self):
         return set(w for w1w2 in [(w1, w2) for w1,feature,w2 in self.raw_data] for w in w1w2)
 
