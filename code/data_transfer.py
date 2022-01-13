@@ -182,11 +182,44 @@ class Task1Dataset(torch.utils.data.Dataset):
 		self.raw_data_source = load_data(language = source_language, mode = mode, task=1)
 		self.raw_data_target = load_data(language = target_language, mode = mode, task=1)
 
-		self.word_voc = word_voc
-
-		self.word_voc_id = {character: i for i, character in enumerate(self.word_voc)}
+		if not word_voc:
+			self.prepare_data()
+		else:
+			self.word_voc = word_voc
+			self.word_voc_id = {character: i for i, character in enumerate(self.word_voc)}
 
 		self.set_analogy_classes()
+
+	def prepare_data(self):
+		"""Generate embeddings for the 4 elements.
+
+		There are 2 modes to encode the words:
+		- 'glove': [only for German] pre-trained GloVe embedding of the word;
+		- 'char': sequence of ids of characters, wrt. a dictioanry of values;
+		- 'none' or None: no encoding, particularly useful when coupled with BERT encodings.
+		"""
+		if self.word_encoding == "char":
+			# generate character vocabulary
+			voc = set()
+			for word_a, feature_b, word_b in self.raw_data_source:
+				voc.update(word_a)
+				voc.update(word_b)
+			for word_a, feature_b, word_b in self.raw_data_target:
+				voc.update(word_a)
+				voc.update(word_b)
+			self.word_voc = list(voc)
+			self.word_voc.sort()
+			self.word_voc_id = {character: i for i, character in enumerate(self.word_voc)}
+
+		elif self.word_encoding == "glove":
+			from embeddings.glove import GloVe
+			self.glove = GloVe()
+
+		elif self.word_encoding == "none" or self.word_encoding is None:
+			pass
+
+		else:
+			print(f"Unsupported word encoding: {self.word_encoding}")
 
 	def set_analogy_classes(self):
 		self.analogies = []
