@@ -1,0 +1,403 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>IsTo</title>
+		<link rel="stylesheet" href="../static/styles/main.css">
+    <link rel="stylesheet" href="../static/fontawesome-free-5.15.4-web/css/all.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/main.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static',filename='fontawesome-free-5.15.4-web/css/all.css') }}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+                crossorigin="anonymous">
+    </script>
+	</head>
+	<body class="homepage is-preload">
+		<a name="top"></a>
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header"><a name="app"></a>
+
+					<!-- Logo -->
+
+						<div id="ovoMenu">
+							<h1>IsTo</h1>
+							<div id="navlist" class="navlist-right">
+						    <a href="#about_us">About Us</a>&nbsp;
+						    <a href="#explain_models">Our app</a>&nbsp;
+						    <a href="#explain_analogies">More about analogies</a>
+						   </div>
+						</div>
+
+					<!-- Banner -->
+						<section id="banner">
+							<header>
+							 <h2>Multilingual Morphological Analogy Solver</h2>
+								<p>A valid morphological analogy is an object such as cat:cats::star:stars. Indeed, <i>cat</i> <b>IsTo</b> <i>cats</i> such as <i>star</i> <b>IsTo</b> <i>stars</i>.</p>
+								<p>This website shows you several features of analogies. You can click on <i class="fa fa-question-circle"></i> to get more information.
+							</header>
+							<form method="post" action="/">
+									<body>
+                    <div id="language_inputs" class="box">
+										<p style="padding: 0 0 0 0;">
+                      <div>
+  											<a href="#why_languages"><i class="fas fa-band-aid"></i><b id=q1 title="Bilingual analogies?"><i class="fa fa-question-circle"></i></b></a>
+  										</div>
+                      <div>
+  							        <b>Source language: </b>
+  							        <select id="source_language" name="source_language" >
+  							        		<option value="Any language" selected>Any language</option>
+  							            <option value="Finnish">Finnish</option>
+  							            <option value="German">German</option>
+  							            <option value="Hungarian">Hungarian</option>
+  							            <option value="Spanish">Spanish</option>
+  							            <option value="Turkish">Turkish</option>
+  							        </select>
+                      </div>
+                      <div>
+  							        <b>Target language: </b>
+  							        <select id="target_language" name="target_language" >
+  							        		<option value="Any language" selected>Any language</option>
+  							            <option value="Finnish">Finnish</option>
+  							            <option value="German">German</option>
+  							            <option value="Hungarian">Hungarian</option>
+  							            <option value="Spanish">Spanish</option>
+  							            <option value="Turkish">Turkish</option>
+  							        </select>
+                      </div>
+                      <div>
+  							        <a id="adv_options" onclick="more(this);">Advanced options <i class="fas fa-caret-down"></i></a>
+                        </div>
+                    </p>
+                    </div>
+  											<br>
+  											<div id="myDropdown" class="dropdown-content" style="display: none;">
+  												  <b>Transformation: </b>&nbsp;
+  												  <input type="text" placeholder="Search for a feature.." id="selected_features" onkeyup="filterFunction()">&nbsp;&nbsp;
+  												  <a href="#how_form"><i class="fas fa-band-aid"></i><b id=q1 title="Features?"><i class="fa fa-question-circle"></i></b></a>
+  												  <div id="features_list" class="dropdown-content"></div>
+  									    </div>
+                        <script>
+                            function more(obj) {
+                                var content = document.getElementById("myDropdown");
+                                document.getElementById("myDropdown").classList.toggle("show");
+
+                                if (content.style.display == "none") {
+                                    content.style.display = "";
+                                    obj.innerHTML = 'Advanced options <i class="fas fa-caret-up"></i>';
+                                } else {
+                                    content.style.display = "none";
+                                    obj.innerHTML = 'Advanced options <i class="fas fa-caret-down"></i>';
+                                }
+                            }
+                        </script>
+							      <p style="padding: 0 0 0 0;">
+							        <button type="button" class="button large" id="example">Generate an example</button><a href="#what_analogies">&nbsp;<b id=q2 title="What is a valid example?"><i class="fa fa-question-circle"></i></b></a>
+										</p>
+							       <p style="padding: 0 0 0 0;">
+                      <label id="example_features">{{example_features}}</label>
+							        <input type="text" disabled="disabled" name="word_a" id="word_a" required>
+							        <b>:</b>
+							        <input type="text" disabled="disabled" name="word_b" id="word_b" required>
+							        <b>::</b>
+							        <input type="text" disabled="disabled" name="word_c" id="word_c" required>
+							        <b>:</b>
+							        <input type="text" disabled="disabled" name="word_d" id="word_d" style='background: {{word_d_background}}'>
+							       </p>
+							       <p style="padding: 0 0 0 0;">
+
+							        		<a href="#how_solve"><b id=q3 title="How is an analogy solved?"><i class="fa fa-question-circle"></i></b>&nbsp;</a>
+							        		<button type="button" class="button large" id="solve">Get closest result</button>
+							        		<button type="button" class="button large" id="shuffle">Shuffle the words</button>
+							        		<a href="#what_shuffle">&nbsp;<b id=q4 title="Does the order matter?"><i class="fa fa-question-circle"></i></b></a>
+
+                          <script type=text/javascript>
+                            $(function() {
+                              $("#shuffle").click(function (event)
+                                          {
+                                $.getJSON({
+                                    type:'POST',
+                                    url:'/shuffleWords',
+                                    data:{
+                                      word_a:$("#word_a").val(),
+                                      word_b:$("#word_b").val(),
+                                      word_c:$("#word_c").val(),
+                                      word_d:$("#word_d").val(),
+                                    },
+                                    success: function(data){
+                                      $("#word_a").val(data.word_a),
+                                      $("#word_b").val(data.word_b),
+                                      $("#word_c").val(data.word_c),
+                                      $("#word_d").val(data.word_d),
+                                      $("#word_d").css('background', "#fff"),
+                                      $("#word_d").css('box-shadow', "0px 0px 3px 3px #EBEBEB"),
+                                      $("#resultID").html(data.result),
+                                      $("#source_language").val(data.source_language),
+                                      $("#target_language").val(data.target_language);
+                                    }
+                                  });
+                                });
+                              });
+                          </script>
+
+										</p>
+							    </body>
+					        <footer>
+								      <h2 id="resultID">{{message}}</h2>
+									</footer>
+					    </form>
+
+
+
+			        <script>
+						    var possible_languages =
+						      {"Any language": ["Any language", "Finnish", "German", "Hungarian", "Spanish", "Turkish"],
+						      "Finnish": ["Any language", "Finnish", "German", "Hungarian", "Turkish"],
+						      "German": ["Any language", "Finnish", "German", "Hungarian", "Spanish"],
+						      "Hungarian": ["Any language", "Finnish", "German", "Hungarian", "Spanish", "Turkish"],
+						      "Spanish": ["Any language", "German", "Hungarian", "Spanish", "Turkish"],
+						      "Turkish": ["Any language", "Finnish", "Hungarian", "Spanish", "Turkish"],
+						      }
+						    source_menu = document.getElementsByName('source_language')[0];
+						    target_menu = document.getElementsByName('target_language')[0];
+						    source_menu.onchange = function(){
+                  updateLanguages(source_menu, target_menu);
+                  updateFeatures();
+						    }
+						    target_menu.onchange = function(){
+                  updateLanguages(target_menu, source_menu);
+                  updateFeatures();
+						    }
+						  </script>
+
+              <script type="text/javascript">
+                function updateLanguages(changedMenu, toChangeMenu) {
+                  previous_target_value = toChangeMenu.value;
+                  toChangeMenu.length = 0; // remove all options bar first
+                  for (var i = 0; i < possible_languages[changedMenu.value].length; i++)
+                  {
+                    toChangeMenu.options[toChangeMenu.length] = new Option(possible_languages[changedMenu.value][i], possible_languages[changedMenu.value][i]);
+                  };
+                  toChangeMenu.value = previous_target_value
+                }
+              </script>
+
+              <script type=text/javascript>
+                $(function() {
+                  updateFeatures()
+                })
+              </script>
+
+
+              <script type="text/javascript">
+                function updateFeatures() {
+                  $.getJSON({
+                        type:'POST',
+                        url:'/updateFeatures',
+                        data:{
+                          source_language:$("#source_language").val(),
+                          target_language:$("#target_language").val(),
+                          selected_features:$("#selected_features").val(),
+                        },
+                        success: function(data){
+                          $("#features_list").html(data.features_list);
+                        }
+                      });
+                }
+              </script>
+
+						  <script type=text/javascript>
+								$(function() {
+									$("#solve").click(function (event)
+															{
+										$.getJSON({
+												type:'POST',
+												url:'/solveAnalogy',
+												data:{
+													word_a:$("#word_a").val(),
+													word_b:$("#word_b").val(),
+													word_c:$("#word_c").val(),
+													word_d:$("#word_d").val(),
+												},
+												success: function(data){
+													$("#word_d").val(data.word_d),
+													$("#resultID").html(data.result),
+													$("#word_d").css('background', data.word_d_background),
+													$("#word_d").css('box-shadow', data.word_d_shadow);
+												}
+											});
+										});
+									});
+							</script>
+
+							<script type=text/javascript>
+								$(function() {
+									$("#example").click(function (event)
+															{
+										$.getJSON({
+												type:'POST',
+												url:'/giveExample',
+												data:{
+													word_a:$("#word_a").val(),
+													word_b:$("#word_b").val(),
+													word_c:$("#word_c").val(),
+													source_language:$("#source_language").val(),
+													target_language:$("#target_language").val(),
+													selected_features:$("#selected_features").val(),
+												},
+												success: function(data){
+													$("#word_a").val(data.word_a),
+								          $("#word_b").val(data.word_b),
+								          $("#word_c").val(data.word_c),
+								          $("#word_d").val(""),
+													$("#word_d").css('background', "#fff"),
+													$("#word_d").css('box-shadow', "0px 0px 3px 3px #EBEBEB"),
+                          $("#example_features").html(data.features),
+													$("#resultID").html(data.result);
+												}
+											});
+										});
+									});
+							</script>
+
+							<script>
+							    function isSubset(subset, set) {
+									  data = ' ' + Array.from(set).join(', ')
+									  for (var elem of subset) {
+									    if (!data.includes(' ' + elem)) {
+									      return false;
+									    }
+									  }
+									  return true;
+									}
+							</script>
+
+							<script>
+									function selectFunction(value) {
+										search_txt = document.getElementById("selected_features");
+									  div = document.getElementById("features_list");
+									  list_elements = div.getElementsByTagName("a");
+									  search_txt.value = value;
+									  for (i = 0; i < list_elements.length; i++) {
+									      list_elements[i].style.display = "none";
+									    }
+									}
+							</script>
+
+							<script>
+									function filterFunction() {
+										div = document.getElementById("features_list");
+									  a = div.getElementsByTagName("a");
+
+									  research = document.getElementById("selected_features").value.replaceAll(", ", ",").toUpperCase();
+
+									  if (research.length == 0) {
+									  	for (i = 0; i < a.length; i++) {
+									    	a[i].style.display = ""
+									    }
+									  } else {
+									    searched_features = new Set(research.split(","));
+
+									    for (i = 0; i < a.length; i++) {
+									      features_list = a[i].textContent || a[i].innerText;
+									      features = new Set(features_list.toUpperCase().split(", "));
+									      features.add("");
+									      if (isSubset(searched_features, features)) {
+									        a[i].style.display = ""
+									      } else {
+									        a[i].style.display = "none";
+									      }
+									    }
+									  }
+									}
+							</script>
+
+
+						</section>
+
+						<!-- Explicative text -->
+						<section id="txt">
+							<a name="explain_analogies"></a>
+							<header>
+									<h3><a href="#top" id="what_analogies" title="Up">What is a valid analogy? <i class="fas fa-arrow-alt-circle-up"></i></a></h3><p>A valid analogy is constituted of four elements A, B, C and D where A is to B such as C is to D. In other words, the relation between A and B is the same as the one between C and D. We based our work on morphology so the analogies you will see are based on words undergoing transformations such as pluralization, gender agreement, conjugation or superlativization.</p>
+									<p>But we can also imagine semantic analogies (king is to queen such as man is to woman), geometrical analogies (10 is to 20 such as 4 is to 8, that you can also see as 10/20 = 4/8) or arithmetical analogies (2 is to 8 such as 9 is to 15, also seen as 2-8=9-15). Human beings rely on analogies in their daily life, where there experience in a given situation will help them react in new but similar situations.</p>
+									<br>
+									<h3><a href="#top" id="what_shuffle" title="Up">Does the order of the words matter? <i class="fas fa-arrow-alt-circle-up"></i></a></h3><p>In an analogy, the order of the elements matters. You cannot shuffle them the way you want. However, given a valid analogy A:B::C:D, there exist equivalent analogies with different placements of the elements. The button Shuffle will give you a valid analogy, equivalent to the one you had before. You will notice that some orderings will never be presented to you, for instance B:A::C:D would be invalid (if the four elements are different!).</p>
+									<p>However, the way our model is designed might make some forms easier to solve than others. If you solve an analogy, shuffle it, and solve it again, the result might be different.</p>
+									<br>
+									<h3><a href="#top" id="why_languages" title="Up">Bilingual analogies? <i class="fas fa-arrow-alt-circle-up"></i></a></h3><p>Analogies are built based on two pairs of words. These pairs can thus be of two different languages as long as these languages have common morphological transformations. For instance, adding <i>-s</i> to pluralize a noun exists in several languages, we could thus build analogies between them: chat:chats::apple:apples.</p>
+									<br>
+									<h3><a href="#top" id="how_solve" title="Up">How do we solve an analogy? <i class="fas fa-arrow-alt-circle-up"></i></a></h3><p>For humans, solving analogies is pretty simple. It consists in identifying the similarities and differences between A and B, and between A and D, before applying the relevant transformation to C in order to get D. Our Neural model works in a similar manner, it first analyses the pairs (A,B) and (A,C) separately and then builds D by applying this result to C.</p>
+									<br>
+									<h3><a href="#top" id="how_form" title="Up">How do we form an analogy? <i class="fas fa-arrow-alt-circle-up"></i></a></h3><p>In an analogy between the pairs (A,B) and (C,D), A and C respectively form B and D by undergoing the same transformation. We applied this idea to morphology by taking pairs of the form (lemma, inflected form). The inflected form corresponds to the lemma to which we applied a transformation such as pluralization, conjugation or declination.</p>
+
+							</header>
+							<a name="explain_models"></a>
+							<header>
+									<p> <b>IsTo</b> relies on two structures based on convolutional neural networks to solve morphological analogies (<a href="https://arxiv.org/abs/2111.05147" target="_blank">AlSaidi <i>et al</i> (a)</a>). To transform the words into computer-readable elements we use an embedding model inspired by <a href="https://arxiv.org/abs/1508.06615" target="_blank">Kim <i>et al</i></a>. To solve the analogies we use <a href="https://www.researchgate.net/publication/335597029_Solving_Word_Analogies_A_Machine_Learning_Perspective" target="_blank">Lim <i>et al</i></a>’s model. Both models were trained on several languages, which makes it possible to solve both monolingual and bilingual analogies (<a href="https://hal.archives-ouvertes.fr/hal-03313591/" target="_blank">AlSaidi <i>et al</i> (b)</a>).</p>
+									<br>
+									<p> This web-app was developed during the second year of our MSc in Natural Language Processing at Université de Lorraine, IDMC. The codes we used during this project are available on <a href="https://github.com/Safa-98/morphological_embeddings_decoder" target="_blank">GitHub <i class="fab fa-github"></i></a>.</p>
+							</header>
+						</section>
+
+					<!-- Intro -->
+						<section id="intro" class="container">
+							<a name="about_us"></a>
+							<div class="row">
+								<div class="col-4 col-12-medium">
+									<section class="first">
+										<i class="icon solid featured fa-cog"></i>
+										<header>
+											<h2>Amandine Decker</h2>
+										</header>
+										<p>We need to add some text here or remove this section.</p>
+									</section>
+								</div>
+								<div class="col-4 col-12-medium">
+									<section class="middle">
+										<i class="icon solid featured alt fa-bolt"></i>
+										<header>
+											<h2>Safa AlSaidi</h2>
+										</header>
+										<p>We need to add some text here or remove this section.</p>
+									</section>
+								</div>
+								<div class="col-4 col-12-medium">
+									<section class="last">
+										<i class="icon solid featured alt2 fa-star"></i>
+										<header>
+											<h2>Stéphanie Monteiro</h2>
+										</header>
+										<p>We need to add some text here or remove this section.</p>
+									</section>
+								</div>
+							</div>
+						</section>
+
+						<!-- Copyright -->
+							<div id="copyright">
+									<p>Design: <a href="http://html5up.net">HTML5 UP</a></p>
+							</div>
+
+				</section>
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
