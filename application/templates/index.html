@@ -172,10 +172,12 @@
 						    source_menu.onchange = function(){
                   updateLanguages(source_menu, target_menu);
                   updateFeatures();
+
 						    }
 						    target_menu.onchange = function(){
                   updateLanguages(target_menu, source_menu);
                   updateFeatures();
+
 						    }
 						  </script>
 
@@ -193,7 +195,7 @@
 
               <script type=text/javascript>
                 $(function() {
-                  updateFeatures()
+                  updateFeatures();
                 })
               </script>
 
@@ -210,6 +212,14 @@
                         },
                         success: function(data){
                           $("#features_list").html(data.features_list);
+                          count = filterFunction();
+                          if (count == 0) {
+                          	$("#selected_features").val("");
+                          	filterFunction()
+                          } else if (count == 1) {
+                          	feature = document.getElementsByName($("#selected_features").val()).item(0)
+                          	feature.style.display = "none"
+                          }
                         }
                       });
                 }
@@ -288,8 +298,8 @@
 									  list_elements = div.getElementsByTagName("a");
 									  search_txt.value = value;
 									  for (i = 0; i < list_elements.length; i++) {
-									      list_elements[i].style.display = "none";
-									    }
+									    	list_elements[i].style.display = "none"
+									   }
 									}
 							</script>
 
@@ -298,26 +308,33 @@
 										div = document.getElementById("features_list");
 									  a = div.getElementsByTagName("a");
 
-									  research = document.getElementById("selected_features").value.replaceAll(", ", ",").toUpperCase();
+									  research = document.getElementById("selected_features").value
+
+									  count = 0
 
 									  if (research.length == 0) {
 									  	for (i = 0; i < a.length; i++) {
 									    	a[i].style.display = ""
+									    	count += 1
 									    }
 									  } else {
+									  	research = research.replaceAll(", ", ",").toUpperCase();
 									    searched_features = new Set(research.split(","));
 
 									    for (i = 0; i < a.length; i++) {
 									      features_list = a[i].textContent || a[i].innerText;
 									      features = new Set(features_list.toUpperCase().split(", "));
 									      features.add("");
+
 									      if (isSubset(searched_features, features)) {
-									        a[i].style.display = ""
+									        a[i].style.display = "";
+									        count += 1;
 									      } else {
 									        a[i].style.display = "none";
 									      }
 									    }
 									  }
+									  return count
 									}
 							</script>
 

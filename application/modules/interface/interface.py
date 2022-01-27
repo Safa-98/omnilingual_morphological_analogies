@@ -170,8 +170,9 @@ class Interface():
             features = set(self.data[(self.data['source_language']==self.source_language)]['features'])
         else:
             features = set(self.data[(self.data['source_language']==self.source_language) & (self.data['target_language']==self.target_language)]['features'])
+
         if as_html:
-            s = '<a href="#features_{id}" id=f"{id}" onclick="selectFunction(this.innerHTML)">{f}</a>\n'
+            s = '<a name="{f}" href="#features_{id}" id=f"{id}" onclick="selectFunction(this.innerHTML)">{f}</a>\n'
             html_features = [s.format(id=i, f=f) for i,f in enumerate(features)]
             return ''.join(html_features), len(html_features)
         else:
@@ -182,13 +183,13 @@ class Interface():
 
 
 if __name__ == '__main__':
-    interface = Interface()
-    #interface.features = 'Verb, indicative mood, indefinite, informal register, present tense, second person, singular'
+    software = Interface()
+    #software.features = 'Verb, indicative mood, indefinite, informal register, present tense, second person, singular'
     #LANGUAGES = ['finnish', 'german', 'hungarian', 'spanish', 'turkish', None]
-    ex = interface.get_example()
-    interface.A = ex['A'].values[0]
-    interface.B = ex['B'].values[0]
-    interface.C = ex['C'].values[0]
-    print(f'{interface.A}, {interface.B}, {interface.C} -> {interface.solve()}')
+    ex = software.get_example()
+    software.A = ex['A'].values[0]
+    software.B = ex['B'].values[0]
+    software.C = ex['C'].values[0]
+    print(f'{software.A}, {software.B}, {software.C} -> {software.solve()}')
 
 
