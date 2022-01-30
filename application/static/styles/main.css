@@ -169,7 +169,7 @@ input, select, textarea {
     color: #fff;
     font-size: 14pt;
     line-height: 1.75em;
-    min-width: 15%;
+    min-width: 18%;
   }
 
   select { /* We don't have this */
@@ -606,6 +606,7 @@ input, select, textarea {
     border-radius: 5px;
     font-weight: 400;
     width: 8em;
+    color: #000;
   }
 
     form input[type=text]:focus,
@@ -1974,6 +1975,10 @@ input, select, textarea {
     }
 
     @media screen and (max-width: 736px) {
+
+      body, input, textarea { /* #Color: Background text color, we have some in the bottom */
+        min-width: 50%;
+      }
 
       .row {
         display: flex;
