@@ -1,0 +1,102 @@
+/* CSS styles */
+
+body, input, textarea { /* #Color: Background text color, we have some in the bottom */
+    font-family: 'Source Sans Pro';
+    font-weight: 300;
+    color: #fff;
+    font-size: 14pt;
+    line-height: 1.75em;
+    min-width: 15%;
+    background: #494949;
+  }
+
+th {
+  border: thin solid #4300DA;
+  background: #D5C4FF;
+  color: #252122;
+  font-weight: bolder;
+}
+
+table {
+	border: none;
+	width: 70%;
+}
+
+td {
+	border: thin solid #4300DA;
+	background: #fff;
+	color: #000;
+	vertical-align: middle;
+	padding: .2em .2em;
+	line-height: normal;
+}
+
+tr {
+	color: #000;
+}
+
+.lang {
+	text-transform: uppercase;
+	color: #fff;
+	background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
+	border: thin solid #4300DA;
+	padding: .5em;
+}
+
+
+table {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#languages {
+    background-position: center center;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+
+    position: relative;
+    padding: 2em 2em;
+    margin: 2em 0 0 0;
+  }
+
+    #languages header {
+      background-color: #252122; /* #Color: Backgroud of the explicative text at the bottom (Info on analogies + References) */
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding: 2.5em 2em;
+      border-radius: 5px;
+    }
+    	#languages header h1 {
+        color: #fff;
+        font-weight: 700;
+        font-size: 2.5em;
+      }
+
+      #languages h2 {
+        color: #ffFF5735f; /* #Color: Bold explicative text color */
+        padding: 1em 0;
+        font-size: 1.5em;
+      }
+
+      #languages p {
+        color: #fff; /* #Color: Explicative text color */
+        padding: 0;
+        font-style: normal;
+        margin: 0;
+        font-size: 1.2em;
+      }
+
+      #languages ul {
+        color: #fff; /* #Color: Bold explicative text color */
+        font-size: 1.2em;
+        margin-bottom: .5em;
+      }
+
+      #languages b {
+        color: #1A004C; /* #Color: Bold explicative text color */
+        font-weight: bolder;
+      }
+
+
+

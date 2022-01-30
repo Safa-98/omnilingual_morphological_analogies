@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic");
+@import url("https://fonts.googleapis.com/css?family=Georgia:300,400,700,900,300italic");
 
 /*
   Dopetrope by HTML5 UP
@@ -147,6 +147,7 @@ input, select, textarea {
 .show {display:block;}
 
 
+
 /* Basic */
 
   html {
@@ -163,7 +164,7 @@ input, select, textarea {
 
 
   body, input, textarea { /* #Color: Background text color, we have some in the bottom */
-    font-family: 'Source Sans Pro';
+    font-family: 'Georgia';
     font-weight: 300;
     color: #fff;
     font-size: 14pt;
@@ -172,7 +173,7 @@ input, select, textarea {
   }
 
   select { /* We don't have this */
-    font-family: 'Source Sans Pro';
+    font-family: 'Georgia';
     font-weight: 300;
     color: #4F4F4F;
     font-size: 14pt;
@@ -583,7 +584,6 @@ input, select, textarea {
     margin: 0 0 0.5em 0;
   }
 
-  form input[type=text],
   form select {
     -webkit-appearance: none;
     border: 0;
@@ -591,9 +591,19 @@ input, select, textarea {
     font-size: 1em;
     font-weight: bolder;
     border-radius: 5px;
-    border: solid 1px #dddddd; /* #Color: Border color of the form inputs (drop-down menus and A,B,C) */
-    background: #fff; /* #Color: Background of the form inputs (drop-down menus and A,B,C) */
-    color: #252122; /* #Color: Text color of the form inputs (drop-down menus and A,B,C) */
+    border: solid 1px #dddddd; /* #Color: Border color of the form inputs (drop-down menus) */
+    background: #fff; /* #Color: Background of the form inputs (drop-down menus) */
+    color: #252122; /* #Color: Text color of the form inputs (drop-down menus) */
+    font-weight: 400;
+    min-width: 20%;
+  }
+
+  form input[type=text] {
+    -webkit-appearance: none;
+    border: 0;
+    padding: 0.75em 1em;
+    font-size: 1em;
+    border-radius: 5px;
     font-weight: 400;
     width: 8em;
   }
@@ -603,12 +613,20 @@ input, select, textarea {
       box-shadow: inset 0px 0px 1px 1px #43bff0; /* #Color: Color of the border+shadow of the form inputs when clicked */
     }
 
-  #word_d{
+  .analogy {
     border-width: 0px;
-    background-color: #EBEBEB; /* #Color: Background of D */
+    background-color: #F5F5F5; /* #Color: Background of D */
     color: #000000; /* #Color: Text of D */
     font-weight: bolder;
-    box-shadow: 0px 0px 3px 3px #EBEBEB; /* #Color: Shadow around D rectangle */
+    box-shadow: 0px 0px 3px 3px #F5F5F5; /* #Color: Shadow around D rectangle */
+  }
+
+  #word_d{
+    border-width: 0px;
+    background-color: #fff; /* #Color: Background of D */
+    color: #000000; /* #Color: Text of D */
+    font-weight: bolder;
+    box-shadow: 0px 0px 3px 3px #fff;
   }
 
 /* Explicative text */
