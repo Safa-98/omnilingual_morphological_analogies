@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>IsTo</title>
+		<title>DANNa</title>
 		<link rel="stylesheet" href="../static/styles/main.css">
     <link rel="stylesheet" href="../static/fontawesome-free-5.15.4-web/css/all.css">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/main.css') }}">
@@ -19,7 +19,7 @@
                 integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
                 crossorigin="anonymous">
     </script>
-	</head>
+	<script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
 	<body class="homepage is-preload">
 		<a name="top"></a>
 		<div id="page-wrapper">
@@ -30,11 +30,12 @@
 					<!-- Logo -->
 
 						<div id="ovoMenu">
-							<h1>IsTo</h1>
+							<h1>DANNa</h1>
 							<div id="navlist" class="navlist-right">
 						    <a href="#about_us">About Us</a>&nbsp;
 						    <a href="#explain_models">Our app</a>&nbsp;
-						    <a href="#explain_analogies">More about analogies</a>
+						    <a href="#explain_analogies">More about analogies</a>&nbsp;
+						    <a href="{{ url_for('static',filename='languages.html') }}" target="_blank" rel="noopener noreferrer">More about morphology</a>
 						   </div>
 						</div>
 
@@ -42,8 +43,9 @@
 						<section id="banner">
 							<header>
 							 <h2>Multilingual Morphological Analogy Solver</h2>
-								<p>A valid morphological analogy is an object such as cat:cats::star:stars. Indeed, <i>cat</i> <b>IsTo</b> <i>cats</i> such as <i>star</i> <b>IsTo</b> <i>stars</i>.</p>
 								<p>This website shows you several features of analogies. You can click on <i class="fa fa-question-circle"></i> to get more information.
+									<p>Click on <i>Generate an example</i> to get a valid example, you can then solve it manually or see what our neural network proposes with <i>Get closest result</i>.</p>
+									<p>Eventually, <i>Get the right answer</i> will give you the right answer if yours was wrong.</p>
 							</header>
 							<form method="post" action="/">
 									<body>
@@ -105,18 +107,19 @@
 										</p>
 							       <p style="padding: 0 0 0 0;">
                       <label id="example_features">{{example_features}}</label>
-							        <input type="text" disabled="disabled" name="word_a" id="word_a" required>
+							        <input type="text" disabled="disabled" name="word_a" id="word_a" class="analogy" required>
 							        <b>:</b>
-							        <input type="text" disabled="disabled" name="word_b" id="word_b" required>
+							        <input type="text" disabled="disabled" name="word_b" id="word_b" class="analogy" required>
 							        <b>::</b>
-							        <input type="text" disabled="disabled" name="word_c" id="word_c" required>
+							        <input type="text" disabled="disabled" name="word_c" id="word_c" class="analogy" required>
 							        <b>:</b>
-							        <input type="text" disabled="disabled" name="word_d" id="word_d" style='background: {{word_d_background}}'>
+							        <input type="text" name="word_d" id="word_d" style='background: {{word_d_background}}' required>
 							       </p>
 							       <p style="padding: 0 0 0 0;">
 
 							        		<a href="#how_solve"><b id=q3 title="How is an analogy solved?"><i class="fa fa-question-circle"></i></b>&nbsp;</a>
 							        		<button type="button" class="button large" id="solve">Get closest result</button>
+							        		<button type="button" class="button large" id="correct">Get the right answer</button>
 							        		<button type="button" class="button large" id="shuffle">Shuffle the words</button>
 							        		<a href="#what_shuffle">&nbsp;<b id=q4 title="Does the order matter?"><i class="fa fa-question-circle"></i></b></a>
 
@@ -150,7 +153,7 @@
                           </script>
 
 										</p>
-							    </body>
+							    <script type="text/javascript">(function(){window['__CF$cv$params']={r:'6d5ba5835eb7a8c1',m:'wEAg6pUlYMZe.XnwSGDbcAWVVpm_MJ8hY5tvbJ5l300-1643555630-0-AQGWWA3BNSPIyMdF6xa+n8ZylQc/HKj1m1vB60kaVZOqBqzZa2pMZk4pno0ioh4DuwP83JX3Vx1l7Meb/xoNZBVBDGQ9MrSZbsCNnzDJ1Ydqm1qobZli5UaDqxmiX9SHMuZJuSe4kJtaDmNFYTpB2QJwF7VzJ6enDdz1QqqgOPwuGzoIy224yaew5QJWnUKWNw==',s:[0x68aeb465f4,0x834c02967d],}})();</script></body>
 					        <footer>
 								      <h2 id="resultID">{{message}}</h2>
 									</footer>
@@ -240,6 +243,27 @@
 												},
 												success: function(data){
 													$("#word_d").val(data.word_d),
+													$("#resultID").html(data.result);
+												}
+											});
+										});
+									});
+							</script>
+
+							<script type=text/javascript>
+								$(function() {
+									$("#correct").click(function (event)
+															{
+										$.getJSON({
+												type:'POST',
+												url:'/correctAnalogy',
+												data:{
+													word_a:$("#word_a").val(),
+													word_b:$("#word_b").val(),
+													word_c:$("#word_c").val(),
+													word_d:$("#word_d").val(),
+												},
+												success: function(data){
 													$("#resultID").html(data.result),
 													$("#word_d").css('background', data.word_d_background),
 													$("#word_d").css('box-shadow', data.word_d_shadow);
@@ -360,9 +384,9 @@
 							</header>
 							<a name="explain_models"></a>
 							<header>
-									<p> <b>IsTo</b> relies on two structures based on convolutional neural networks to solve morphological analogies (<a href="https://arxiv.org/abs/2111.05147" target="_blank">AlSaidi <i>et al</i> (a)</a>). To transform the words into computer-readable elements we use an embedding model inspired by <a href="https://arxiv.org/abs/1508.06615" target="_blank">Kim <i>et al</i></a>. To solve the analogies we use <a href="https://www.researchgate.net/publication/335597029_Solving_Word_Analogies_A_Machine_Learning_Perspective" target="_blank">Lim <i>et al</i></a>’s model. Both models were trained on several languages, which makes it possible to solve both monolingual and bilingual analogies (<a href="https://hal.archives-ouvertes.fr/hal-03313591/" target="_blank">AlSaidi <i>et al</i> (b)</a>).</p>
+									<p> <b>DANNa</b> relies on two structures based on convolutional neural networks to solve morphological analogies (<a href="https://arxiv.org/abs/2111.05147" target="_blank" rel="noopener noreferrer">AlSaidi <i>et al</i> (a)</a>). To transform the words into computer-readable elements we use an embedding model inspired by <a href="https://arxiv.org/abs/1508.06615" target="_blank" rel="noopener noreferrer">Kim <i>et al</i></a>. To solve the analogies we use <a href="https://www.researchgate.net/publication/335597029_Solving_Word_Analogies_A_Machine_Learning_Perspective" target="_blank" rel="noopener noreferrer">Lim <i>et al</i></a>’s model. Both models were trained on several languages, which makes it possible to solve both monolingual and bilingual analogies (<a href="https://hal.archives-ouvertes.fr/hal-03313591/" target="_blank" rel="noopener noreferrer">AlSaidi <i>et al</i> (b)</a>).</p>
 									<br>
-									<p> This web-app was developed during the second year of our MSc in Natural Language Processing at Université de Lorraine, IDMC. The codes we used during this project are available on <a href="https://github.com/Safa-98/morphological_embeddings_decoder" target="_blank">GitHub <i class="fab fa-github"></i></a>.</p>
+									<p> This web-app was developed during the second year of our MSc in Natural Language Processing at Université de Lorraine, IDMC. The codes we used during this project are available on <a href="https://github.com/Safa-98/morphological_embeddings_decoder" target="_blank" rel="noopener noreferrer">GitHub <i class="fab fa-github"></i></a>.</p>
 							</header>
 						</section>
 
