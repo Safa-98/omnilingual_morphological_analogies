@@ -17,7 +17,7 @@ def app_home():
 
 @app.route('/solveAnalogy',methods=["GET", 'POST'])
 def solveAnalogy():
-    '''Solve the analogy on screen.
+    '''Provide the D produced by the model.
     '''
     print('Solve Analogy')
     word_a = request.form.get("word_a")
@@ -29,25 +29,60 @@ def solveAnalogy():
     interface.B = word_b if word_b else None
     interface.C = word_c if word_c else None
     print(f"\tCurrent example: {interface.A}, {interface.B}, {interface.C}")
-    result = interface.solve()
-    print(f"\tResult: {result}\n")
 
-    if interface.check_example_exists(word_a, word_b, word_c, word_d if word_d else None):
+    if interface.A is None and interface.B is None and interface.C is None:
+        message = "Please generate an example."
+        result = ""
+    else:
+        message = ""
+        result = interface.solve()
+    print(f"\tResult of the model: {result}\n")
 
-        if interface.D == result:
+
+    output = {'word_d': result,
+                'result': message
+                }#'word_d_shadow': f"0px 0px 3px 3px #fff"
+    return jsonify(output)
+
+
+@app.route('/correctAnalogy',methods=["GET", 'POST'])
+def correctAnalogy():
+    '''Provide the right answer based on the database.
+    '''
+    print('Give the right answer')
+    word_a = request.form.get("word_a")
+    word_b = request.form.get("word_b")
+    word_c = request.form.get("word_c")
+    word_d = request.form.get("word_d")
+
+    interface.A = word_a if word_a else None
+    interface.B = word_b if word_b else None
+    interface.C = word_c if word_c else None
+    print(f"\tCurrent example: {interface.A}, {interface.B}, {interface.C}")
+
+    if interface.A is None and interface.B is None and interface.C is None:
+        message = "Please generate an example."
+        word_d_background = "#fff"
+    elif not word_d:
+        message = "Please write an answer."
+        word_d_background = "#fff"
+    elif interface.check_example_exists(word_a, word_b, word_c, None):
+
+        result = interface.D
+        print(f"\tResult of the database: {result}\n")
+
+        if interface.D == word_d:
             message = ""
             word_d_background = "#52FF79"
         else:
-            message = f"This result is not the expected one ({interface.D})."
+            message = f"This result is not the expected one ({result})."
             word_d_background = "#FF5252"
 
     else:
-        interface.D = result
-        message = f"This analogy is not in our database, the result might be unexpected."
+        message = f"This analogy is not in our database, we cannot provide you with the right answer."
         word_d_background = f"#BBBBBB"
 
-    output = {'word_d': result,
-                'result': message,
+    output = {'result': message,
                 'word_d_background': word_d_background,
                 'word_d_shadow': f"0px 0px 3px 3px {word_d_background}"}
     return jsonify(output)
