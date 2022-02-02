@@ -475,7 +475,7 @@ input, select, textarea {
 
       .icon.featured:after {
         content: '';
-        position: relative;
+        position: absolute;
         bottom: -1.95em;
         left: 0;
         border-top: solid 2em #d52349; /* #Color: Background of bottom part (triangle) 'down arrow' above first name  */
