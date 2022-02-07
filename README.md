@@ -1,4 +1,4 @@
-# A Decoder for Morphological Embeddings
+# Towards an omnilingual model for solving morphological analogies
 ## Description
 This project was a continuation of last year's work on ``A Neural Approach to Detecting and Solving Morphological Analogies across Languages''. We initially aimed to build a decoder for morphological embeddings that transforms embedded vectors to words in order to apply it on our previous regression model. We worked on morphological inflections and dervivations like suffixes, prefixes, etc. For the datasets, we used the Sigmorphon2016 data file, which contains 10 languages, and the Japanese dataset. Then, we explored the transferability of our previous regression model between languages by building bilingual analogies. This led us to build a single omnilingual model to solve both monolingual and bilingual analogies. We designed a website using this model.
 
@@ -11,9 +11,9 @@ mv code/japanese-task1-train sigmorphon2016/data/
 
 ## Files and Folders
 
-### `application`folder
+### `application` folder
 
-### `code`folder
+### `code` folder
 
 #### `decoder` subfolder
 This folder contains the code we use for this project. The neural networks are based on the Pytorch library, we are in the process of moving all these codes to Pytorch Lightning.
@@ -34,13 +34,13 @@ This folder contains the code we use for this project. The neural networks are b
 #### `regression_task` subfolder
 
 
-### `papers` folder
+### `articles` folder
 This folder contains the papers cited in our report and others that we used for our literature survey.
 
-### `presentations`folder
+### `presentations` folder
 This folder contains all the slides of our intermediate presentations in a PDF format which each detail the progress of our project, the issues encountered and the future work.
 
-### `report`folder
+### `report` folder
 This folder contains the report of our project.
 
 ### `results` folder
