@@ -44,7 +44,7 @@ This folder contains all the slides of our intermediate presentations in a PDF f
 This folder contains the report of our project.
 
 ### `results` folder
-The sub-folder `first trials` contains the results we obtained after training our decoder or Arabic and Hungarian. They consist in `.txt` files containing 100 (input word ; generated word) pairs and then 3 metrics: the accuracy, the portion of generated words of same length as the input word, and the mean Levenshtein distance on all the evaluated words. These metrics will be improved afterwards as they are not the most meaningful for our task. Indeed the accuracy does not indicate how far our model is to generate the right word while the mean Levenshtein distance does not take the length of the words into account.
+The sub-folder `first trials` contains the results we obtained after training our decoder on Arabic and Hungarian. They consist of `.txt` files containing 100 (input word ; generated word) pairs and then 3 metrics: the accuracy, the portion of generated words of same length as the input word, and the mean Levenshtein distance on all the evaluated words. These metrics will be improved afterwards as they are not the most meaningful for our task. Indeed the accuracy does not indicate how far our model is to generate the right word while the mean Levenshtein distance does not take the length of the words into account.
 The files names are of the form `save_words_{language of the data}_{number of epochs}e_model_{activation function}_{hidden size of the GRU layer}hsize.txt`.
 
 ## Usage of the code
