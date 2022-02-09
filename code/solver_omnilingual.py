@@ -148,13 +148,13 @@ def train_solver(languages, nb_analogies, epochs, loss_mode, full_dataset, rd_se
         times_list.append(elapsed())
         print(f"Epoch: {epoch}, Run time: {times_list[-1]:4.5}s, Loss: {losses_list[-1]}")
 
-    path_models = f"models/omni_regression_transfer/omni_regression_transfer_diff{languages}_full{full_dataset}_{epochs}e_{loss_mode}mode_{expe_version}_seed{rd_seed}.pth"
+    path_models = f"models/omni_regression_transfer/omni_regression_transfer{'_fullDataset' if full_dataset else ''}_{epochs}e_seed{rd_seed}.pth"
     torch.save({"state_dict": regression_model.cpu().state_dict(), 'state_dict_embeddings': embedding_model.cpu().state_dict(), "losses": losses_list, "times": times_list, 'voc': saved_data_embed_source['voc'], 'voc_id': saved_data_embed_source['voc_id']}, path_models)
 
 
     # -- Test model
 
-    save_dir = f"regression/omni_transfer_full{full_dataset}_{expe_version}_seed{rd_seed}"
+    save_dir = f"regression/omni_transfer{'_fullDataset' if full_dataset else ''}_{expe_version}_seed{rd_seed}"
     if not os.path.isdir(save_dir):
         os.mkdir(save_dir)
     print()

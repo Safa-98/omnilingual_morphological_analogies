@@ -150,7 +150,7 @@ def train_solver(source_language, target_language, nb_analogies, epochs, loss_mo
         times_list.append(elapsed())
         print(f"Epoch: {epoch}, Run time: {times_list[-1]:4.5}s, Loss: {losses_list[-1]}")
 
-    path_models = f"models/bilingual/regression_cnn_{source_language}_to_{target_language}_{epochs}e_{loss_mode}mode_seed{rd_seed}.pth"
+    path_models = f"models/bilingual/regression_cnn_{source_language}_to_{target_language}_{epochs}e_seed{rd_seed}.pth"
     torch.save({"state_dict": regression_model.cpu().state_dict(), 'state_dict_embeddings': embedding_model.cpu().state_dict(), "losses": losses_list, "times": times_list, 'voc': saved_data_embed_source['word_voc'], 'voc_id': saved_data_embed_source['word_voc_id']}, path_models)
 
 
