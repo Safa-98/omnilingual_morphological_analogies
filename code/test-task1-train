@@ -1,0 +1,10 @@
+aalen	pos=V,mood=IND,tense=PRS,per=3,num=PL	aalen
+abalienieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	abalienieren
+argumentieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	argumentieren
+avancieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	avancieren
+balkanisieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	balkanisieren
+aalglatt	pos=ADJ,case=ACC,comp=CMPR,gen=NEUT,num=SG	aalglatteres
+abgeflacht	pos=ADJ,case=ACC,comp=CMPR,gen=NEUT,num=SG	abgeflachteres
+abgehackt	pos=ADJ,case=ACC,comp=CMPR,gen=NEUT,num=SG	abgehackteres
+abscheulich	pos=ADJ,case=ACC,comp=CMPR,gen=NEUT,num=SG	abscheulicheres
+abseitsverdächtig	pos=ADJ,case=ACC,comp=CMPR,gen=NEUT,num=SG	abseitsverdächtigeres

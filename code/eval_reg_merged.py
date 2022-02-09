@@ -8,18 +8,13 @@ from functools import partial
 from sklearn.model_selection import train_test_split
 from copy import copy
 import data_merged, data_transfer, data
-from analogy_reg import AnalogyRegression
+from analogy_reg import AnalogyRegressionShared, AnalogyRegressionDiff
 from cnn_embeddings import CNNEmbedding
-from utils1 import elapsed_timer, collate
+from utils import elapsed_timer, collate, decode
 import store_embed_reg_merged, store_embed_reg
-import multiprocessing
 import calendar
 import time
 import os
-
-
-def decode(list_ids, voc):
-    return ''.join([voc[i.item()] if i.item() in voc.keys() else '#' for i in list_ids[1:-1]])
 
 
 @click.command()
@@ -34,10 +29,12 @@ def decode(list_ids, voc):
              help='The path to the saved embedding and regression models.', show_default=True)
 @click.option('--folder', default="",
              help='The path to the saved embedding and regression models.', show_default=True)
-def test_solver_omni(language1, language2, valid_features, full_dataset, nb_analogies, path_models, folder):
+@click.option('--regression_model_shared', default=False,
+              help='Regression model used, if True then shared parameters between the two first linear layers.', show_default=True)
+def test_solver_omni(language1, language2, valid_features, full_dataset, nb_analogies, path_models, folder, regression_model_shared):
     test_solver_(language1, language2, valid_features, full_dataset, nb_analogies, path_models, folder)
 
-def test_solver_omni_(language1, language2=None, valid_features=[], full_dataset=False, nb_analogies=50000, path_models="", folder=""):
+def test_solver_omni_(language1, language2=None, valid_features=[], full_dataset=False, nb_analogies=50000, path_models="", folder="", regression_model_shared=False):
     # --- Test models ---
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -79,7 +76,10 @@ def test_solver_omni_(language1, language2=None, valid_features=[], full_dataset
 
     test_dataloader = DataLoader(test_subset, shuffle = True, collate_fn = partial(collate, bos_id = BOS_ID, eos_id = EOS_ID))
 
-    regression_model = AnalogyRegression(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    if regression_model_shared:
+        regression_model = AnalogyRegressionShared(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    else:
+        regression_model = AnalogyRegressionDiff(emb_size=16*5)
     regression_model.load_state_dict(saved_models['state_dict'])
     regression_model.eval()
     regression_model.to(device)
@@ -163,10 +163,10 @@ def test_solver_omni_(language1, language2=None, valid_features=[], full_dataset
              help='The path to the saved embedding and regression models.', show_default=True)
 @click.option('--folder', default="",
              help='The path to the saved embedding and regression models.', show_default=True)
-def test_solver_mono(language1, language2, valid_features, nb_analogies, path_models, folder):
+def test_solver_mono(language1, language2, valid_features, nb_analogies, path_models, folder, regression_model_shared):
     test_solver_(language1, language2, valid_features, nb_analogies, path_models, folder)
 
-def test_solver_mono_(language1, language2=None, valid_features=[], nb_analogies=50000, path_models="", folder=""):
+def test_solver_mono_(language1, language2=None, valid_features=[], nb_analogies=50000, path_models="", folder="", regression_model_shared=False):
     # --- Test models ---
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -219,7 +219,10 @@ def test_solver_mono_(language1, language2=None, valid_features=[], nb_analogies
 
     test_dataloader = DataLoader(test_subset, shuffle = True, collate_fn = partial(collate, bos_id = BOS_ID, eos_id = EOS_ID))
 
-    regression_model = AnalogyRegression(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    if regression_model_shared:
+        regression_model = AnalogyRegressionShared(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    else:
+        regression_model = AnalogyRegressionDiff(emb_size=16*5)
     regression_model.load_state_dict(saved_models['state_dict'])
     regression_model.eval()
     regression_model.to(device)
@@ -300,10 +303,10 @@ def test_solver_mono_(language1, language2=None, valid_features=[], nb_analogies
              help='The path to the saved embedding and regression models.', show_default=True)
 @click.option('--folder', default="",
              help='The path to the saved embedding and regression models.', show_default=True)
-def test_solver_bilingual(language1, language2, nb_analogies, path_models, folder):
+def test_solver_bilingual(language1, language2, nb_analogies, path_models, folder, regression_model_shared):
     test_solver_(language1, language2, nb_analogies, path_models, folder)
 
-def test_solver_bilingual_(language1, language2=None, nb_analogies=50000, path_models="", folder=""):
+def test_solver_bilingual_(language1, language2=None, nb_analogies=50000, path_models="", folder="", regression_model_shared=False):
     # --- Test models ---
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -349,7 +352,10 @@ def test_solver_bilingual_(language1, language2=None, nb_analogies=50000, path_m
 
     test_dataloader = DataLoader(test_subset, shuffle = True, collate_fn = partial(collate, bos_id = BOS_ID, eos_id = EOS_ID))
 
-    regression_model = AnalogyRegression(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    if regression_model_shared:
+        regression_model = AnalogyRegressionShared(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    else:
+        regression_model = AnalogyRegressionDiff(emb_size=16*5)
     regression_model.load_state_dict(saved_models['state_dict'])
     regression_model.eval()
     regression_model.to(device)

@@ -7,6 +7,11 @@ from sklearn.model_selection import train_test_split
 from copy import copy
 
 def encode_word(voc, word):
+    '''Encodes a word into a list of IDs thanks to a character to integer mapping.
+
+    Arguments:
+    voc -- The character to integer dictionary.
+    word -- The word to encode.'''
     return [voc[c] if c in voc.keys() else 0 for c in word]
 
 def pad(tensor, bos_id, eos_id):
@@ -14,10 +19,13 @@ def pad(tensor, bos_id, eos_id):
     tensor = F.pad(input=tensor, pad=(0,1), mode='constant', value=eos_id)
     return tensor
 
-#language = "german"
-#PATH_EMBED = f"pth/classification_CNN_german_20e2.pth"
-
 def generate_embeddings_file(language, path_embed, storing_path):
+    '''Stores the embeddings of the training and test set of a given language and returns the path to the file.
+
+    Arguments:
+    language -- Language of the words to store.
+    path_embed -- The path to the embedding model to use.
+    storing_path -- The path where the embeddings will be saved.'''
 
     saved_data_embed = torch.load(path_embed)
 
@@ -57,7 +65,6 @@ def generate_embeddings_file(language, path_embed, storing_path):
     embedding_model.load_state_dict(saved_data_embed['state_dict_embeddings'])
     embedding_model.eval()
 
-    #f"embeddings/char_fine/{language}-vectors.txt", 'w'
     with open(storing_path, 'w') as f:
         for word, embed in vocabulary.items():
             embedding = torch.unsqueeze(torch.LongTensor(embed), 0)

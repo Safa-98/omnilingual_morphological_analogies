@@ -1,0 +1,10 @@
+extrovertiert	pos=ADJ,case=ACC,comp=CMPR,gen=FEM,num=SG	extrovertiertere
+angelsächsisch	pos=ADJ,case=ACC,comp=CMPR,gen=FEM,num=SG	angelsächsischere
+brünstig	pos=ADJ,case=ACC,comp=CMPR,gen=FEM,num=SG	brünstigere
+erlesen	pos=ADJ,case=ACC,comp=CMPR,gen=FEM,num=SG	erlesenere
+schick	pos=ADJ,case=ACC,comp=CMPR,gen=FEM,num=SG	schickere
+kriegen	pos=V,mood=IND,tense=PRS,per=3,num=PL	kriegen
+orientieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	orientieren
+starten	pos=V,mood=IND,tense=PRS,per=3,num=PL	starten
+teilen	pos=V,mood=IND,tense=PRS,per=3,num=PL	teilen
+kastrieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	kastrieren

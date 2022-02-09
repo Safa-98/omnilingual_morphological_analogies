@@ -2,8 +2,6 @@ import torch, torch.nn as nn
 import random
 
 PATH = "./omnilingual_data/"
-#LANGUAGES = ["test", "arabic", "finnish", "georgian", "german", "hungarian", "japanese", "maltese", "navajo", "russian", "spanish", "turkish", "french"]
-#LANGS = ["ar", "fi", "ka", "de", "hu", "mt", "nv", "ru", "es", "tr", "fr"] # for BPEmb subword embeddings
 MODES = ["train", "dev", "test", "test-covered"]
 
 def load_data(mode="train", full_dataset=False):

@@ -1,0 +1,11 @@
+abandonnieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	abandonnieren
+aktualisieren	pos=V,mood=IND,tense=PRS,per=3,num=PL	aktualisieren
+bedürfen	pos=V,mood=IND,tense=PRS,per=3,num=PL	bedürfen
+behüten	pos=V,mood=IND,tense=PRS,per=3,num=PL	behüten
+beteiligen	pos=V,mood=IND,tense=PRS,per=3,num=PL	beteiligen
+beschlagnahmen	pos=V,mood=IND,tense=PRS,per=3,num=PL	beschlagnahmen
+Abstimmung	pos=N,case=ACC,gen=FEM,num=SG	Abstimmung
+Einkaufsliste	pos=N,case=ACC,gen=FEM,num=SG	Einkaufsliste
+Fußverletzung	pos=N,case=ACC,gen=FEM,num=SG	Fußverletzung
+Herrscherpersönlichkeit	pos=N,case=ACC,gen=FEM,num=SG	Herrscherpersönlichkeit
+Losung	pos=N,case=ACC,gen=FEM,num=SG	Losung

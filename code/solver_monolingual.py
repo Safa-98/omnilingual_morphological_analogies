@@ -7,15 +7,12 @@ from statistics import mean
 from functools import partial
 from sklearn.model_selection import train_test_split
 from copy import copy
-#from data import Task1Dataset, enrich, enrich_source, enrich_target
-#from reg_analogies_data import AnalogiesDataset, AnalogiesDataModule, enrich, enrich_source, enrich_target
 from data import Task1Dataset, enrich
-from analogy_reg import AnalogyRegression
+from analogy_reg import AnalogyRegressionShared, AnalogyRegressionDiff
 from cnn_embeddings import CNNEmbedding
-from utils1 import elapsed_timer, collate
+from utils import elapsed_timer, collate, reg_loss_fn, decode
 from store_embed_reg import generate_embeddings_file
 from eval_reg_merged import test_solver_mono_
-import multiprocessing
 import calendar
 import time
 import ast
@@ -23,36 +20,6 @@ import pandas as pd
 import numpy as np
 import os
 
-
-criterion = nn.MSELoss()
-cosine_embedding_loss = nn.CosineEmbeddingLoss(margin=0.5)
-def reg_loss_fn(a, b, c, d, d_pred, mode=0):
-        if mode == 0:
-            return cosine_embedding_loss(
-                    torch.cat([d_pred]*4, dim=0),
-                    torch.cat([d,a,b,c], dim=0),
-                    torch.cat([torch.ones(a.size(0)), -torch.ones(a.size(0) * 3)]).to(a.device))
-
-        elif mode == 1:
-            good = criterion(d, d_pred)
-            bad = criterion(d[torch.randperm(d.size(0))], d_pred)
-
-            return (good + 1) / (bad + 1)
-
-        elif mode == 2:
-            return criterion(d_pred, d)
-
-        else:
-            return (1 + criterion(d_pred, d) * 6) / (1 +
-                criterion(a,b) +
-                criterion(a,c) +
-                criterion(a,d) +
-                criterion(b,c) +
-                criterion(b,d) +
-                criterion(c,d))
-
-def decode(list_ids, voc):
-    return ''.join([voc[i.item()] if i.item() in voc.keys() else '#' for i in list_ids[1:-1]])
 
 @click.command()
 @click.option('--source_language', default="test", help='The language to train the model on.', show_default=True)
@@ -64,7 +31,9 @@ def decode(list_ids, voc):
               help='The mode for the loss.', show_default=True)
 @click.option('--rd_seed', default=0,
               help='Random seed.', show_default=True)
-def train_solver(source_language, nb_analogies, epochs, loss_mode, rd_seed):
+@click.option('--regression_model_shared', default=False,
+              help='Regression model used, if True then shared parameters between the two first linear layers.', show_default=True)
+def train_solver(source_language, nb_analogies, epochs, loss_mode, rd_seed, regression_model_shared):
     '''Trains an analogy solving model for a given language.
 
     Arguments:
@@ -122,9 +91,11 @@ def train_solver(source_language, nb_analogies, epochs, loss_mode, rd_seed):
     else:
         emb_size = 64
 
-    regression_model = AnalogyRegression(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    if regression_model_shared:
+        regression_model = AnalogyRegressionShared(emb_size=16*5) # 16 because 16 filters of each size, 5 because 5 sizes
+    else:
+        regression_model = AnalogyRegressionDiff(emb_size=16*5)
 
-    #print(len(voc))
     embedding_model = CNNEmbedding(emb_size=emb_size, voc_size = len(source_voc) + 2)
     embedding_model.load_state_dict(saved_data_embed_source['state_dict_embeddings'])
     embedding_model.eval()
@@ -135,7 +106,6 @@ def train_solver(source_language, nb_analogies, epochs, loss_mode, rd_seed):
     regression_model.to(device)
 
     optimizer = torch.optim.Adam(list(regression_model.parameters()) + list(embedding_model.parameters()), lr=1e-3)
-    criterion = nn.MSELoss()
 
     losses_list = []
     times_list = []
