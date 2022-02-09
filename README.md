@@ -86,6 +86,20 @@ The sub-folder `first trials` contains the results we obtained after training ou
 The files names are of the form `save_words_{language of the data}_{number of epochs}e_model_{activation function}_{hidden size of the GRU layer}hsize.txt`.
 
 
+## Installing the Dependencies
+
+Install Anaconda (or miniconda to save storage space).
+
+Then, create a conda environement (for example `omnilingual_morphological_analogies`) and install the dependencies, using the following commands:
+
+```bash
+conda create --name omnilingual_morphological_analogies python=3.9
+conda activate omnilingual_morphological_analogies
+conda install -y pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -c=conda-forge
+conda install -y numpy scipy pandas scikit-learn click flask waitress
+```
+
+
 ## Usage of the code
 For all the codes, the parameters have a default value, it is thus not necessary to fill them all.
 
