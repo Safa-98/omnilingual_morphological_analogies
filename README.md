@@ -108,7 +108,9 @@ To train and evaluate a decoder for a language, run ``python train_gru_decoder.p
 
 ### Omnilingual and Monolingual analogy solver models
 To train and evaluate a monolingual analogy solver for a language, run ``python solver_monolingual.py --source_language=<language> --nb_analogies=<maximal number of analogies to use> --epochs=<number of epochs>`` (ex: ``python solver_monolingual.py --source_language=german --nb_analogies=50000 --epochs=20``).
+
 To train and evaluate a bilingual analogy solver for a language, run ``python solver_bilingual.py --source_language=<source language> --target_language=<target language> --nb_analogies=<maximal number of analogies to use> --epochs=<number of epochs>`` (ex: ``python solver_bilingual.py --source_language=german --target_language=finnish --nb_analogies=50000 --epochs=20``).
+
 To train and evaluate an omnilingual analogy solver for a language, run ``python solver_omnilingual.py --nb_analogies=<maximal number of analogies to use> --epochs=<number of epochs>`` (ex: ``python solver_omnilingual.py --nb_analogies=50000 --epochs=20``).
 
 ### Application
